@@ -9,7 +9,7 @@ public class Film {
 	private int id;
 	private String title;
 	private String description;
-	private short releaseYear;
+	private int releaseYear;
 	private int languageId;
 	private int rentalDuration;
 	private double rentalRate;
@@ -31,7 +31,7 @@ public class Film {
 
 
 
-	public Film(int id, String title, String description, short releaseYear, int languageId, int rentalDuration,
+	public Film(int id, String title, String description, int releaseYear, int languageId, int rentalDuration,
 			double rentalRate, int length, double replacementCost, String rating, String specialfeatures, List<Actor> cast) {
 		super();
 		this.id = id;
@@ -74,7 +74,7 @@ public class Film {
 		this.description = description;
 	}
 
-	public short getReleaseYear() {
+	public int getReleaseYear() {
 		return releaseYear;
 	}
 
@@ -137,15 +137,14 @@ public class Film {
 	public void setSpecialfeatures(String specialfeatures) {
 		this.specialfeatures = specialfeatures;
 	}
+	
 
 	@Override
 	public String toString() {
-		DatabaseAccessor db = new DatabaseAccessorObject();
-		StringBuilder builder = new StringBuilder();
-		builder.append("Title = " + getTitle() + "\nYear = " + getReleaseYear() + "\nRating = " + getRating()
-		+ "\nDescription = " + getDescription() + "\n Language = " + getLanguageId() + "\n Cast = " + db.findActorsByFilmId(getId()) + "\n");
-
-		return builder.toString();
+		return "Film [id=" + id + ", title=" + title + ", description=" + description + ", releaseYear=" + releaseYear
+				+ ", languageId=" + languageId + ", rentalDuration=" + rentalDuration + ", rentalRate=" + rentalRate
+				+ ", length=" + length + ", replacementCost=" + replacementCost + ", rating=" + rating
+				+ ", specialfeatures=" + specialfeatures + ", cast=" + cast + "]";
 	}
 
 
@@ -153,7 +152,21 @@ public class Film {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((cast == null) ? 0 : cast.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + id;
+		result = prime * result + languageId;
+		result = prime * result + length;
+		result = prime * result + ((rating == null) ? 0 : rating.hashCode());
+		result = prime * result + releaseYear;
+		result = prime * result + rentalDuration;
+		long temp;
+		temp = Double.doubleToLongBits(rentalRate);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(replacementCost);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((specialfeatures == null) ? 0 : specialfeatures.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
 
@@ -169,7 +182,44 @@ public class Film {
 		if (getClass() != obj.getClass())
 			return false;
 		Film other = (Film) obj;
+		if (cast == null) {
+			if (other.cast != null)
+				return false;
+		} else if (!cast.equals(other.cast))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
 		if (id != other.id)
+			return false;
+		if (languageId != other.languageId)
+			return false;
+		if (length != other.length)
+			return false;
+		if (rating == null) {
+			if (other.rating != null)
+				return false;
+		} else if (!rating.equals(other.rating))
+			return false;
+		if (releaseYear != other.releaseYear)
+			return false;
+		if (rentalDuration != other.rentalDuration)
+			return false;
+		if (Double.doubleToLongBits(rentalRate) != Double.doubleToLongBits(other.rentalRate))
+			return false;
+		if (Double.doubleToLongBits(replacementCost) != Double.doubleToLongBits(other.replacementCost))
+			return false;
+		if (specialfeatures == null) {
+			if (other.specialfeatures != null)
+				return false;
+		} else if (!specialfeatures.equals(other.specialfeatures))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
 			return false;
 		return true;
 	}

@@ -17,16 +17,7 @@ public class Actor {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("ID = ");
-		builder.append(id);
-		builder.append("\n First Name = ");
-		builder.append(firstName);
-		builder.append("\n Last Name = ");
-		builder.append(lastName);
-		builder.append("\n");
-		
-		return builder.toString();
+		return "Actor [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
 	}
 
 	public int getId() {
