@@ -94,7 +94,11 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		List<Actor> cast = new ArrayList<>();
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
-			String sql = "select * from actor a join film_actor fa on fa.actor_id =a.id join film f on f.id = fa.film_id where f.id = ?";
+			String sql = "SELECT * "
+					+ "FROM actor a "
+					+ "JOIN film_actor fa on fa.actor_id =a.id "
+					+ "JOIN film f on f.id = fa.film_id "
+					+ "WHERE f.id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
 			ResultSet rs = stmt.executeQuery();
@@ -126,7 +130,9 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 			String sql = "SELECT id, title, description, release_year, language_id, rental_duration, ";
 			sql += " rental_rate, length, replacement_cost, rating, special_features "
-					+ " FROM film JOIN film_actor ON film.id = film_actor.film_id " + " WHERE actor_id = ?";
+					+ " FROM film "
+					+ "JOIN film_actor ON film.id = film_actor.film_id " + " "
+					+ "WHERE actor_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, actorId);
 			ResultSet rs = stmt.executeQuery();
@@ -166,14 +172,14 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
-			String sql = "select film.id as id, title, description, release_year, language_id,"
+			String sql = "SELECT film.id as id, title, description, release_year, language_id,"
 					+ " language.name as film_language, rental_duration, rental_rate, length, replacement_cost,"
 					+ " rating, special_features, category.name as film_category"
-					+ " from film"
-					+ " join language on film.language_id = language.id"
-					+ " join film_category on film.id = film_category.film_id"
-					+ " join category on film_category.category_id = category.id"
-					+ " where title like ? or description like ?";
+					+ " FROM film"
+					+ " JOIN language on film.language_id = language.id"
+					+ " JOIN film_category on film.id = film_category.film_id"
+					+ " JOIN category on film_category.category_id = category.id"
+					+ " WHERE title like ? or description like ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "%" + inputText + "%");
 			stmt.setString(2, "%" + inputText + "%");
