@@ -30,12 +30,15 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 		Connection conn = DriverManager.getConnection(URL, user, pass);
 
-		String sql = "select film.id as id, title, description, release_year, language_id,"
+		String sql = 
+				"SELECT film.id as id, title, description, release_year, language_id,"
 				+ " language.name as film_language, rental_duration, rental_rate, length, replacement_cost,"
-				+ " rating, special_features, category.name as film_category" + " from film"
-				+ " join language on film.language_id = language.id"
-				+ " join film_category on film.id = film_category.film_id"
-				+ " join category on film_category.category_id = category.id" + " where film.id = ?";
+				+ " rating, special_features, category.name as film_category" + " "
+				+ " FROM film"
+				+ " JOIN language on film.language_id = language.id"
+				+ " JOIN film_category on film.id = film_category.film_id"
+				+ " JOIN category on film_category.category_id = category.id" + " "
+				+ " WHERE film.id = ?";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -65,7 +68,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		Actor actor = null;
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
-			String sql = "SELECT id, first_name, last_name FROM actor WHERE id = ?";
+			String sql = 
+					"SELECT id, first_name, last_name "
+					+ "FROM actor"
+					+ "WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, actorId);
 			ResultSet rs = stmt.executeQuery();
@@ -168,10 +174,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 					+ " join film_category on film.id = film_category.film_id"
 					+ " join category on film_category.category_id = category.id"
 					+ " where title like ? or description like ?";
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "%" + inputText + "%");
-			pstmt.setString(2, "%" + inputText + "%");
-			ResultSet rs = pstmt.executeQuery();
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%" + inputText + "%");
+			stmt.setString(2, "%" + inputText + "%");
+			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				filmSearch.add(new Film(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
@@ -181,7 +187,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			}
 			
 			rs.close();
-			pstmt.close();
+			stmt.close();
 			conn.close();
 
 		} catch (SQLException e) {
@@ -190,4 +196,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 		return filmSearch;
 	}
+
+
 }

@@ -12,7 +12,8 @@ public interface DatabaseAccessor {
   public Actor findActorById(int actorId);
   
   public List<Actor> findActorsByFilmId(int filmId);
-  
+  //Added databaseAccessor for films by searching.
   public List<Film> findFilmsBySearch(String inputText);
+  
   
 }
